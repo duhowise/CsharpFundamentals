@@ -18,7 +18,7 @@ namespace GradeBook
             grades.Add (grade);
         }
 
-        public void ShowStats ()
+        public void ShowStatistics ()
         {
             var result = 0.0;
 
