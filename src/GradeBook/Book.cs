@@ -5,39 +5,35 @@ namespace GradeBook
 {
     public class Book
     {
-        List<double> grades;
-        string name;
+        List<double> _grades;
+       public string Name;
 
-        public Book (string name)
+        public Book(string name)
         {
-            this.name = name;
-            grades = new List<double> ();
+            Name = name;
+            _grades = new List<double>();
         }
-        public void AddGrade (double grade)
+        public void AddGrade(double grade)
         {
-            grades.Add (grade);
+            _grades.Add(grade);
         }
 
-        public void ShowStatistics ()
+        public Statistics ShowStatistics()
         {
-            var result = 0.0;
-
-            var totalNumberOfGrades = grades.Count;
-            var highGrade = double.MinValue;
-            var lowGrade = double.MaxValue;
-
-            foreach (var number in grades)
+            var result = new Statistics {Average = 0.0, High = double.MinValue, Low = double.MaxValue};
+            foreach (var number in _grades)
             {
-                lowGrade = Math.Min (number, lowGrade);
-                highGrade = Math.Max (number, highGrade);
-                result += number;
+                result.Low = Math.Min(number, result.Low);
+                result.High = Math.Max(number, result.High);
+                result.Average += number;
             }
 
-            System.Console.WriteLine ($"The lowest grade is {lowGrade}");
-            System.Console.WriteLine ($"The highest grade is {highGrade}");
-            System.Console.WriteLine ($"the sum of the grades are {result:N3}");
-            result /= totalNumberOfGrades;
-            System.Console.WriteLine ($"the average grade is {result:N3}");
+            // System.Console.WriteLine($"The lowest grade is {result.Low}");
+            // System.Console.WriteLine($"The highest grade is {result.High}");
+            // System.Console.WriteLine($"the sum of the grades are {result:N3}");
+            result.Average /= _grades.Count;
+            // System.Console.WriteLine($"the average grade is {result.Average:N3}");
+            return result;
         }
     }
 }
