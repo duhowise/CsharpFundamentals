@@ -9,15 +9,15 @@ namespace GradeBook.Tests
         public void StringBehavesLikeValueTypes()
         {
             string name = "scott";
-           name= MakeUpperCase(name);
-            Assert.Equal("SCOTT",name);
+            name = MakeUpperCase(name);
+            Assert.Equal("SCOTT", name);
         }
 
         private string MakeUpperCase(string name)
         {
-           return name.ToUpper();
+            return name.ToUpper();
         }
-       
+
 
         [Fact]
         public void TestName()
@@ -53,13 +53,11 @@ namespace GradeBook.Tests
             //Then
             Assert.Equal(expected, actual);
             Assert.NotEqual("Book 1", actual);
-
         }
 
         private void GetBookSetName(ref Book book, string bookName)
         {
             book = new Book(bookName);
-
         }
 
         [Fact]
@@ -74,17 +72,12 @@ namespace GradeBook.Tests
             //Then
             Assert.NotEqual(expected, actual);
             Assert.Equal("Book 1", actual);
-
         }
 
         private void GetBookSetName(Book book, string bookName)
         {
             book = new Book(bookName);
-
         }
-
-
-
 
 
         [Fact]
@@ -117,7 +110,6 @@ namespace GradeBook.Tests
         private void setName(Book book1, string bookName)
         {
             book1.Name = bookName;
-
         }
 
         [Fact]

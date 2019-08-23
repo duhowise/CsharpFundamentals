@@ -5,8 +5,11 @@ namespace GradeBook
 {
     public class Book
     {
-        List<double> _grades;
-       public string Name;
+        private List<double> _grades;
+
+        public List<double> Grades => _grades;
+
+        public string Name;
 
         public Book(string name)
         {
@@ -15,24 +18,62 @@ namespace GradeBook
         }
         public void AddGrade(double grade)
         {
-            _grades.Add(grade);
+            if (grade > 0&&grade <= 100)
+            {
+                _grades.Add(grade);
+
+            }
+            else
+            {
+                System.Console.WriteLine("Invalid value");
+            }
+        }
+        public void AddLetterGrade(char letterGrade)
+        {
+            switch (letterGrade)
+            {
+                case 'A':
+                    AddGrade(90);
+                    break;
+                case 'B':
+                    AddGrade(80);
+                    break;
+                case 'C':
+                    AddGrade(70);
+                    break;
+                default:
+                    AddGrade(0);
+                    break;
+            }
         }
 
         public Statistics ShowStatistics()
         {
-            var result = new Statistics {Average = 0.0, High = double.MinValue, Low = double.MaxValue};
+            var result = new Statistics { Average = 0.0, High = double.MinValue, Low = double.MaxValue };
             foreach (var number in _grades)
             {
-                result.Low = Math.Min(number, result.Low);
+                result.Low = Math.Min(result.Low, number);
                 result.High = Math.Max(number, result.High);
                 result.Average += number;
+                result.Sum += number;
             }
-
-            // System.Console.WriteLine($"The lowest grade is {result.Low}");
-            // System.Console.WriteLine($"The highest grade is {result.High}");
-            // System.Console.WriteLine($"the sum of the grades are {result:N3}");
+            
             result.Average /= _grades.Count;
-            // System.Console.WriteLine($"the average grade is {result.Average:N3}");
+            switch (result.Average)
+            {
+                case var d when d >= 90.0:
+                    result.Letter = 'A';
+                    break;
+                case var d when d >= 80.0:
+                    result.Letter = 'B';
+                    break;
+                case var d when d >= 70.0:
+                    result.Letter = 'c';
+                    break;
+                default:
+                    result.Letter = 'D';
+                    break;
+            }
             return result;
         }
     }
