@@ -4,27 +4,36 @@ namespace GradeBook
 {
     class Program
     {
-        private const string Q = "Q";
+        private const string Quit = "Q";
 
-       static Book book = new Book("Some Gradebook");
+        static Book book = new Book("Some Gradebook");
 
 
         static void Main(string[] args)
         {
             string entry;
-           
+
             do
             {
                 Console.WriteLine("enter a number");
                 entry = System.Console.ReadLine();
-                if (entry==null)
+                try
                 {
-                   continue; 
+                    var number = double.Parse(entry);
+                    book.AddGrade(number);
                 }
-                double.TryParse(entry,out var number);
-                book.AddGrade(number);
+                catch (ArgumentException exception)
+                {
 
-            } while (entry != Q);
+                    System.Console.WriteLine(exception.Message);
+                }
+                catch (FormatException exception)
+                {
+
+                    System.Console.WriteLine(exception.Message);
+                }
+
+            } while (entry != Quit);
 
             // book.AddGrade(90.3);
             // book.AddGrade(98.3);
