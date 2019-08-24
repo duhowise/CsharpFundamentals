@@ -1,5 +1,7 @@
 using Xunit;
 using GradeBook;
+using System;
+
 namespace GradeBook.Tests
 {
     public class BookTests
@@ -35,13 +37,15 @@ namespace GradeBook.Tests
             var book2 = new Book("Book 2");
 
             //When
-            book.AddGrade(-1);
-            book1.AddGrade(101);
+
             book2.AddGrade(50);
 
             //Then
-            Assert.False(book.Grades.Count!=0);
-            Assert.False(book1.Grades.Count!=0);
+            Assert.Throws<ArgumentException>(() =>book1.AddGrade(101));
+            var exception = Assert.Throws<ArgumentException>(() => book.AddGrade(-1));
+            Assert.Equal($"Invalid grade", exception.Message);
+            Assert.False(book.Grades.Count != 0);
+            Assert.False(book1.Grades.Count != 0);
             Assert.Single(book2.Grades);
         }
     }

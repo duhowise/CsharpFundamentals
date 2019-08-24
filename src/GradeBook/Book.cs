@@ -3,13 +3,14 @@ using System.Collections.Generic;
 
 namespace GradeBook
 {
+    public delegate void GradeAddedDelegate(object sender, EventArgs args);
     public class Book
     {
         private List<double> _grades;
-
+        public string Name { get; private set; }
         public List<double> Grades => _grades;
-
-        public string Name;
+        public const string Category = "Science";
+        public event GradeAddedDelegate GradeAdded;
 
         public Book(string name)
         {
@@ -18,17 +19,21 @@ namespace GradeBook
         }
         public void AddGrade(double grade)
         {
-            if (grade > 0&&grade <= 100)
+            if (grade > 0 && grade <= 100)
             {
                 _grades.Add(grade);
-
+                if (GradeAdded == null)
+                {
+                    return;
+                }
+                GradeAdded(this, new EventArgs());
             }
             else
             {
                 throw new ArgumentException($"Invalid {nameof(grade)}");
             }
         }
-        public void AddLetterGrade(char letterGrade)
+        public void AddGrade(char letterGrade)
         {
             switch (letterGrade)
             {
@@ -57,7 +62,7 @@ namespace GradeBook
                 result.Average += number;
                 result.Sum += number;
             }
-            
+
             result.Average /= _grades.Count;
             switch (result.Average)
             {

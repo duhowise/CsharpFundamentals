@@ -3,8 +3,35 @@ using Xunit;
 
 namespace GradeBook.Tests
 {
+    public delegate string WriteLogDelegate(string logMessage);
     public class TypeTests
     {
+        int count = 0;
+
+        [Fact]
+        public void WriteLogDelegateCanPointToMethod()
+        {
+            //Given
+            WriteLogDelegate log = ReturnMessage;
+            //When
+            log += ReturnMessage;
+            log += IncrementCount;
+            var result = log("Hello");
+            //Then
+            Assert.Equal(3, count);
+        }
+
+        string ReturnMessage(string message)
+        {
+            count += 1;
+            return message.ToLower();
+        }
+        string IncrementCount(string message)
+        {
+            count += 1;
+            return message;
+        }
+
         [Fact]
         public void StringBehavesLikeValueTypes()
         {
@@ -99,17 +126,17 @@ namespace GradeBook.Tests
         {
             //Given
             var book1 = GetBook("Book 1");
-            setName(book1, "New Name");
+            book1 = setName(book1, "New Name");
             //When
 
-            //Then
+            //Then21
             Assert.NotEqual(book1.Name, "Book 1");
             Assert.Equal(book1.Name, "New Name");
         }
 
-        private void setName(Book book1, string bookName)
+        private Book setName(Book book1, string bookName)
         {
-            book1.Name = bookName;
+            return new Book(bookName);
         }
 
         [Fact]
