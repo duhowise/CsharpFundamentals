@@ -11,13 +11,13 @@ namespace GradeBook.Tests
         {
 
 
-            var book = new Book("");
+            var book = new InMemoryBook("");
             book.AddGrade(89.1);
             book.AddGrade(90.5);
             book.AddGrade(77.3);
 
             //When
-            var result = book.ShowStatistics();
+            var result = book.GetStatistics();
 
             //Then
 
@@ -32,9 +32,9 @@ namespace GradeBook.Tests
         public void AddGradeValidatesGrades()
         {
             //Given
-            var book = new Book("Book");
-            var book1 = new Book("Book 1");
-            var book2 = new Book("Book 2");
+            var book = new InMemoryBook("Book");
+            var book1 = new InMemoryBook("Book 1");
+            var book2 = new InMemoryBook("Book 2");
 
             //When
 

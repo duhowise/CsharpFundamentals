@@ -4,35 +4,30 @@ using System.Collections.Generic;
 namespace GradeBook
 {
     public delegate void GradeAddedDelegate(object sender, EventArgs args);
-    public class Book
+
+    public abstract class Book : NamedObject, IBook
     {
         private List<double> _grades;
-        public string Name { get; private set; }
-        public List<double> Grades => _grades;
-        public const string Category = "Science";
-        public event GradeAddedDelegate GradeAdded;
 
-        public Book(string name)
+        public Book(string name) : base(name)
         {
-            Name = name;
             _grades = new List<double>();
+
         }
-        public void AddGrade(double grade)
-        {
-            if (grade > 0 && grade <= 100)
+        public abstract void AddGrade(double grade);
+     
+        public abstract event GradeAddedDelegate GradeAdded;
+        public virtual Statistics GetStatistics(){
+            var result = new Statistics();
+            foreach (var number in _grades)
             {
-                _grades.Add(grade);
-                if (GradeAdded == null)
-                {
-                    return;
-                }
-                GradeAdded(this, new EventArgs());
+                result.Add(number);
+               
             }
-            else
-            {
-                throw new ArgumentException($"Invalid {nameof(grade)}");
-            }
+            
+            return result;
         }
+
         public void AddGrade(char letterGrade)
         {
             switch (letterGrade)
@@ -52,34 +47,6 @@ namespace GradeBook
             }
         }
 
-        public Statistics ShowStatistics()
-        {
-            var result = new Statistics { Average = 0.0, High = double.MinValue, Low = double.MaxValue };
-            foreach (var number in _grades)
-            {
-                result.Low = Math.Min(result.Low, number);
-                result.High = Math.Max(number, result.High);
-                result.Average += number;
-                result.Sum += number;
-            }
 
-            result.Average /= _grades.Count;
-            switch (result.Average)
-            {
-                case var d when d >= 90.0:
-                    result.Letter = 'A';
-                    break;
-                case var d when d >= 80.0:
-                    result.Letter = 'B';
-                    break;
-                case var d when d >= 70.0:
-                    result.Letter = 'c';
-                    break;
-                default:
-                    result.Letter = 'D';
-                    break;
-            }
-            return result;
-        }
     }
 }

@@ -7,11 +7,20 @@ namespace GradeBook
         private const string Quit = "Q";
         static void Main(string[] args)
         {
-            Book book = new Book("Some Gradebook");
+            var book = new DiskBook("Some Gradebook");
             book.GradeAdded += OnGradeAdded;
-            book.GradeAdded += OnGradeAdded;
-            string entry;
+            EnterGrades(book);
 
+        }
+
+        private static void EnterGrades(IBook book)
+        {
+            if (book is null)
+            {
+                throw new ArgumentNullException(nameof(book));
+            }
+
+            string entry;
             do
             {
                 Console.WriteLine("enter a number");
@@ -40,15 +49,14 @@ namespace GradeBook
             // book.AddGrade(10.8);
             // book.AddGrade(1.4);
             // book.AddGrade(56.1);
-            var result = book.ShowStatistics();
-            System.Console.WriteLine(Book.Category);
+            var result = book.GetStatistics();
             System.Console.WriteLine($"For the book named {book.Name}");
             System.Console.WriteLine($"The lowest grade is {result.Low}");
             System.Console.WriteLine($"The highest grade is {result.High}");
             System.Console.WriteLine($"the sum of the grades are {result.Sum:N3}");
             System.Console.WriteLine($"the average grade is {result.Average:N3}");
-
         }
+
         static void OnGradeAdded(object sender, EventArgs args)
         {
             System.Console.WriteLine("A grade was added");
