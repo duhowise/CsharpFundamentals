@@ -4,7 +4,7 @@ using System;
 
 namespace GradeBook
 {
-    internal class DiskBook : Book
+    public class DiskBook : Book
     {
         public DiskBook(string name) : base(name)
         {

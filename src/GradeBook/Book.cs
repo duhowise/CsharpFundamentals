@@ -7,7 +7,7 @@ namespace GradeBook
 
     public abstract class Book : NamedObject, IBook
     {
-        private List<double> _grades;
+        internal List<double> _grades;
 
         public Book(string name) : base(name)
         {

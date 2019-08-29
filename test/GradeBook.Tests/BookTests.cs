@@ -1,5 +1,4 @@
 using Xunit;
-using GradeBook;
 using System;
 
 namespace GradeBook.Tests
@@ -11,7 +10,7 @@ namespace GradeBook.Tests
         {
 
 
-            var book = new InMemoryBook("");
+            var book = new InMemoryBook("85.6");
             book.AddGrade(89.1);
             book.AddGrade(90.5);
             book.AddGrade(77.3);
@@ -21,7 +20,8 @@ namespace GradeBook.Tests
 
             //Then
 
-            Assert.Equal(85.6, result.Average, 1);
+            Assert.Equal("85.6", book.Name);
+            Assert.Equal(85.63, result.Average,2);
             Assert.Equal(90.5, result.High, 1);
             Assert.Equal(77.3, result.Low, 1);
             Assert.Equal('B', result.Letter);
